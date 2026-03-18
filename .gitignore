@@ -1,0 +1,6 @@
+boot.vdi
+bochsrc.bxrc
+*.img
+*.bin
+README.MD
+Load+Kernel

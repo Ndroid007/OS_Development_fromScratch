@@ -1,0 +1,4 @@
+# To convert your .img file to .vdi file(Needs Oracle VMware)
+VBoxManage.exe" convertfromraw boot.img boot.vdi --format VDI --uuid="<UUID-optional>"
+
+# Create a VM in VMware and point bootable drive to boot.vdi
