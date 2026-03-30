@@ -1,0 +1,41 @@
+We have priviledge levels - there 4 of them. From ring 0-3.
+Ring 0 - High privilege. Kernel resides.
+..
+Ring 3 - Lowest privilege. Subset instructions and Hsrdware access.
+
+
+CPL(Current Descriptor Level) - These are 2 bits value stored in lower 2 bits of CS and SS segment registers. So, if they are 00 then we at level/ring 0 and when 11 we at ring 3.
+
+
+
+
+Segment Selector: It is 16 bit value used in Protected Mode to identify a segment descriptor.
+    Segment index - 12 bits
+    TI(Table indicator) - 2 bits
+    RPL(Requested Privilege Level) - 2 bits
+15                  3    1    0
+ |  Segment index   | TI | RPL|
+
+
+We use mostly Ring0[Kernel level privledge] and sometimes ring3[User Level privledge].
+So, RPL remain 00 most times.
+
+TI will point to GDT(Global Descriptor table). 
+There is a LDT(Local descriptor table) which we use as per need.
+
+
+DPL (Descriptor privilege level) - It is stored in Descriptor and will be compared by RPL to check if the request has access to this privilege or not.
+
+if,
+ - CPL & RPL <= DPL --> Check pass. Higher or equal priviledge
+    - Description will be loaded into hidden part of DS register, if other checks also pass in this example.
+
+Descriptor Entry
+    - Code Segment
+    - Data Segment
+63              56              52              48              40              16              0
+| base[31:24]   | attrb         | Limit[19:16]  | attrb         | Base[23:0]    | Limit[15:0]   |
+
+Attributes(attrb): Include DPL field, writable, accessed bits, etc.
+Here Segmentation is disabled in 64-bit mode so we gonna ignore 'base' and 'limits' in descriptors.
+
